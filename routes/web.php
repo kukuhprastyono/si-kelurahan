@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminModelController;
 use App\Http\Controllers\suratController;
 use App\Http\Controllers\userController;
+use App\Http\Controllers\UserModelController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +20,8 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', [userController::class, 'index']);
+Route::get('/', [UserModelController::class, 'index']);
+Route::get('/admin', [AdminModelController::class, 'index'])->name('admin');
+Route::get('/admin/detail/{id_surat}', [AdminModelController::class, 'detailSurat']);
+Route::get('/admin/add', [AdminModelController::class, 'addSurat']);
+Route::post('/admin/insert', [AdminModelController::class, 'insertSurat']);
