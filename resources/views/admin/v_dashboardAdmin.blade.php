@@ -6,7 +6,7 @@
 @endsection
 @section('content')
 @if(session('alert'))
-    <div class="alert alert-success">{{session('alert')}}</div>
+<div class="alert alert-success">{{session('alert')}}</div>
 @endif
 <!-- Basic Card Example -->
 <div class="card shadow mb-4">
@@ -33,11 +33,6 @@
                         <th>Tempat Lahir</th>
                         <th>Tanggal Lahir</th>
                         <th>Agama</th>
-                        <!-- <th>Pekerjaan</th>
-                        <th>Tempat Tinggal</th>
-                        <th>Status Perkawinan</th>
-                        <th>Keperluan</th>
-                        <th>Keterangan Lain</th> -->
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -52,21 +47,45 @@
                         <td>{{$items->tempat_lahir}}</td>
                         <td>{{$items->tanggal_lahir}}</td>
                         <td>{{$items->agama}}</td>
-                        <!-- <td>{{$items->pekerjaan}}</td>
-                        <td>{{$items->tempat_tinggal}}</td>
-                        <td>{{$items->status_perkawinan}}</td>
-                        <td>{{$items->keperluan}}</td>
-                        <td>{{$items->keterangan_lain}}</td> -->
                         <td>
                             <a href="/admin/detail/{{$items->id_surat}}" class="badge badge-info"><span>Detail</span></a>
-                            <a href="" class="badge badge-warning"><span>Edit</span></a>
-                            <a href="" class="badge badge-danger"><span>Hapus</span></a>
+                            <a href="/admin/edit/{{$items->id_surat}}" class="badge badge-warning"><span>Edit</span></a>
+                            <!-- <a href="/admin/delete/{{$items->id_surat}}" class="badge badge-danger"><span>Hapus</span></a> -->
+                            <a href="" class="badge badge-danger" data-toggle="modal" data-target="#modal{{$items->id_surat}}"><span>Hapus</span></a>
                         </td>
                     </tr>
                     @endforeach
+
                 </tbody>
             </table>
         </div>
+        <!-- Button trigger modal -->
+        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Launch demo modal
+        </button> -->
+        @foreach($surat as $data)
+        
+        <!-- Modal -->
+        <div class="modal fade" id="modal{{$data->id_surat}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <h5 class="modal-title text-light" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah data yakin dihapus?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/admin/delete/{{$data->id_surat}}" type="button" class="btn btn-danger">Hapus</a>
+                        <a type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
     </div>
 </div>
 <!-- <div class="row justify-content-center">

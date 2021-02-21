@@ -22,4 +22,14 @@ class AdminModel extends Model
     {
         return DB::table('tbl_surat')->insert($data);
     }
+
+    public function editData($id_surat, $data)
+    {
+        return DB::table('tbl_surat')->where('id_surat', $id_surat)->update($data);
+    }
+
+    public function deleteData($id_surat)
+    {
+        return DB::table('tbl_surat')->where('id_surat', $id_surat)->delete();
+    }
 }

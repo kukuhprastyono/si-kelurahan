@@ -25,3 +25,6 @@ Route::get('/admin', [AdminModelController::class, 'index'])->name('admin');
 Route::get('/admin/detail/{id_surat}', [AdminModelController::class, 'detailSurat']);
 Route::get('/admin/add', [AdminModelController::class, 'addSurat']);
 Route::post('/admin/insert', [AdminModelController::class, 'insertSurat']);
+Route::get('/admin/edit/{id_surat}', [AdminModelController::class, 'editSurat']);
+Route::post('/admin/update/{id_surat}', [AdminModelController::class, 'updateSurat']);
+Route::get('/admin/delete/{id_surat}', [AdminModelController::class, 'deleteSurat']);
