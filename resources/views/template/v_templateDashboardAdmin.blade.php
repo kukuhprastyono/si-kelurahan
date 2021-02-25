@@ -74,9 +74,7 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
+                        
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a id="userDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -138,7 +136,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; si-kelurahan 2021</span>
                     </div>
                 </div>
             </footer>
