@@ -33,4 +33,24 @@ class AdminModel extends Model
     {
         return DB::table('tbl_surat')->where('id_surat', $id_surat)->delete();
     }
+
+    public function totalData()
+    {
+        return DB::table('tbl_surat')->count();
+    }
+
+    public function totalDataPrinted()
+    {
+        return DB::table('tbl_surat')->where('status', 'printed')->count();
+    }
+
+    public function totalDataPending()
+    {
+        return DB::table('tbl_surat')->where('status', 'pending')->count();
+    }
+
+    public function totalDataRejected()
+    {
+        return DB::table('tbl_surat')->where('status', 'rejected')->count();
+    }
 }

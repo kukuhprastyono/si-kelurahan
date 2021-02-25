@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class AdminModelController extends Controller
 {
-    
+
     public function __construct()
     {
         $this->AdminModel = new AdminModel();
@@ -18,7 +18,11 @@ class AdminModelController extends Controller
     public function index()
     {
         $data = [
-            'surat' => $this->AdminModel->allData()
+            'surat' => $this->AdminModel->allData(),
+            'totalSurat'    => $this->AdminModel->totalData(),
+            'totalSuratDicetak'    => $this->AdminModel->totalDataPrinted(),
+            'totalSuratDitunda'    => $this->AdminModel->totalDataPending(),
+            'totalSuratDitolak'    => $this->AdminModel->totalDataRejected()
         ];
         return view('admin/v_dashboardAdmin', $data);
     }
@@ -42,7 +46,7 @@ class AdminModelController extends Controller
     }
     // insert
     public function insertSurat()
-    {   
+    {
         Request()->validate([
             'nik'               =>  'required',
             'nomor_kk'          =>  'required',
@@ -56,7 +60,7 @@ class AdminModelController extends Controller
             'status_perkawinan' =>  'required',
             'keperluan'         =>  'required',
             'keterangan_lain'   =>  'required'
-        ],[
+        ], [
             'nik.required'               =>  'NIK wajib diisi',
             'nomor_kk.required'          =>  'Nomor kk wajib diisi',
             'nama_lengkap.required'      =>  'Nama lengkap wajib diisi',
@@ -70,8 +74,9 @@ class AdminModelController extends Controller
             'keperluan.required'         =>  'Keperluan wajib diisi',
             'keterangan_lain.required'   =>  'Keterangan wajib diisi'
         ]);
-        $data=[
+        $data = [
             'nik'       =>  request()->nik,
+            'status'       =>  'pending',
             'nomor_kk'  =>  request()->nomor_kk,
             'nama_lengkap'  =>  request()->nama_lengkap,
             'jenis_kelamin' =>  request()->jenis_kelamin,
@@ -85,7 +90,7 @@ class AdminModelController extends Controller
             'keterangan_lain'   =>  request()->keterangan_lain
         ];
         $this->AdminModel->addData($data);
-        return redirect()->route('admin')->with('alert','Data berhasil ditambahkan');
+        return redirect()->route('admin')->with('alert', 'Data berhasil ditambahkan');
     }
 
     public function editSurat($id_surat)
@@ -113,7 +118,7 @@ class AdminModelController extends Controller
             'tempat_tinggal'    =>  'required',
             'status_perkawinan' =>  'required',
             'keperluan'         =>  'required'
-        ],[
+        ], [
             'nik.required'               =>  'NIK wajib diisi',
             'nomor_kk.required'          =>  'Nomor kk wajib diisi',
             'nama_lengkap.required'      =>  'Nama lengkap wajib diisi',
@@ -126,7 +131,7 @@ class AdminModelController extends Controller
             'status_perkawinan.required' =>  'Status perkawinan wajib diisi',
             'keperluan.required'         =>  'Keperluan wajib diisi'
         ]);
-        $data=[
+        $data = [
             'nik'       =>  request()->nik,
             'nomor_kk'  =>  request()->nomor_kk,
             'nama_lengkap'  =>  request()->nama_lengkap,
@@ -141,14 +146,23 @@ class AdminModelController extends Controller
             'keterangan_lain'   =>  request()->keterangan_lain
         ];
         $this->AdminModel->editData($id_surat, $data);
-        return redirect()->route('admin')->with('alert','Data berhasil diubah');
+        return redirect()->route('admin')->with('alert', 'Data ber-id ' . $id_surat . ' berhasil diubah');
     }
 
+    // reject data
+    public function rejectSurat($id_surat)
+    {
+        $item = [
+            'status'    =>  'rejected'
+        ];
+        $this->AdminModel->editData($id_surat, $item);
+        return redirect()->route('admin')->with('alert', 'Data ber-id ' . $id_surat . ' ditolak');
+    }
     // delete data
     public function deleteSurat($id_surat)
     {
         $this->AdminModel->deleteData($id_surat);
-        return redirect()->route('admin')->with('alert', 'Data berhasil dihapus');
+        return redirect()->route('admin')->with('alert', 'Data ber-id ' . $id_surat . ' berhasil dihapus');
     }
 
     // print data
@@ -157,6 +171,11 @@ class AdminModelController extends Controller
         if (!$this->AdminModel->detailData($id_surat)) {
             return abort(404);
         }
+        $item = [
+            'status'    =>  'printed'
+        ];
+        $this->AdminModel->editData($id_surat, $item);
+
         $data = [
             'surat' =>  $this->AdminModel->detailData($id_surat)
         ];

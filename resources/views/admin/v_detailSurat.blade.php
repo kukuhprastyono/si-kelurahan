@@ -16,6 +16,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Status</th>
                         <th>NIK</th>
                         <th>KK</th>
                         <th>Nama Lengkap</th>
@@ -34,6 +35,15 @@
                 <tbody>
                     <tr>
                         <td>{{$surat->id_surat}}</td>
+                        <td>
+                            @if ($surat->status == 'printed')
+                            <span class="badge badge-success">{{$surat->status}}</span>
+                            @elseif ($surat->status == 'pending')
+                            <span class="badge badge-warning">{{$surat->status}}</span>
+                            @else
+                            <span class="badge badge-danger">{{$surat->status}}</span>
+                            @endif
+                        </td>
                         <td>{{$surat->nik}}</td>
                         <td>{{$surat->nomor_kk}}</td>
                         <td>{{$surat->nama_lengkap}}</td>
@@ -47,9 +57,10 @@
                         <td>{{$surat->keperluan}}</td>
                         <td>{{$surat->keterangan_lain}}</td>
                         <td>
-                            <a href="" class="badge badge-info"><span>Detail</span></a>
-                            <a href="" class="badge badge-warning"><span>Edit</span></a>
-                            <a href="" class="badge badge-danger"><span>Hapus</span></a>
+                            <a href="/admin/print/{{$surat->id_surat}}" class="badge badge-success" target="_blank"><span>Print</span></a>
+                            <a href="/admin/edit/{{$surat->id_surat}}" class="badge badge-primary"><span>Edit</span></a>
+                            <a href="/admin/reject/{{$surat->id_surat}}" class="badge badge-warning"><span>Reject</span></a>
+                            <a href="" class="badge badge-danger" data-toggle="modal" data-target="#modal{{$surat->id_surat}}"><span>Hapus</span></a>
                         </td>
                     </tr>
                 </tbody>

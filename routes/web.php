@@ -29,6 +29,8 @@ Route::get('/admin/edit/{id_surat}', [AdminModelController::class, 'editSurat'])
 Route::post('/admin/update/{id_surat}', [AdminModelController::class, 'updateSurat']);
 Route::get('/admin/delete/{id_surat}', [AdminModelController::class, 'deleteSurat']);
 Route::get('/admin/print/{id_surat}', [AdminModelController::class, 'printSurat']);
+Route::post('/admin/print/{id_surat}', [AdminModelController::class, 'printSurat']);
+Route::get('/admin/reject/{id_surat}', [AdminModelController::class, 'rejectSurat']);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

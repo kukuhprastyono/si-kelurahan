@@ -8,6 +8,85 @@
 @if(session('alert'))
 <div class="alert alert-success">{{session('alert')}}</div>
 @endif
+<!-- Content Row -->
+<div class="row">
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total surat</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{$totalSurat}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Sudah Dicetak</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{$totalSuratDicetak}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clipboard-check fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Belum Dicetak
+                        </div>
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{$totalSuratDitunda}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-danger shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                            Ditolak</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{$totalSuratDitolak}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-times fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Basic Card Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -26,13 +105,13 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Status</th>
                         <th>NIK</th>
                         <th>KK</th>
                         <th>Nama Lengkap</th>
                         <th>Jenis Kelamin</th>
                         <th>Tempat Lahir</th>
                         <th>Tanggal Lahir</th>
-                        <th>Agama</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -40,18 +119,26 @@
                     @foreach($surat as $items)
                     <tr>
                         <td>{{$items->id_surat}}</td>
+                        <td>
+                            @if ($items->status == 'printed')
+                            <span class="badge badge-success">{{$items->status}}</span>
+                            @elseif ($items->status == 'pending')
+                            <span class="badge badge-warning">{{$items->status}}</span>
+                            @else
+                            <span class="badge badge-danger">{{$items->status}}</span>
+                            @endif
+                        </td>
                         <td>{{$items->nik}}</td>
                         <td>{{$items->nomor_kk}}</td>
                         <td>{{$items->nama_lengkap}}</td>
                         <td>{{$items->jenis_kelamin}}</td>
                         <td>{{$items->tempat_lahir}}</td>
                         <td>{{$items->tanggal_lahir}}</td>
-                        <td>{{$items->agama}}</td>
                         <td>
-                            <a href="/admin/print/{{$items->id_surat}}" class="badge badge-primary"><span>Print</span></a>
+                            <a href="/admin/print/{{$items->id_surat}}" class="badge badge-success" target="_blank"><span>Print</span></a>
                             <a href="/admin/detail/{{$items->id_surat}}" class="badge badge-info"><span>Detail</span></a>
-                            <a href="/admin/edit/{{$items->id_surat}}" class="badge badge-warning"><span>Edit</span></a>
-                            <!-- <a href="/admin/delete/{{$items->id_surat}}" class="badge badge-danger"><span>Hapus</span></a> -->
+                            <a href="/admin/edit/{{$items->id_surat}}" class="badge badge-primary"><span>Edit</span></a>
+                            <a href="/admin/reject/{{$items->id_surat}}" class="badge badge-warning"><span>Reject</span></a>
                             <a href="" class="badge badge-danger" data-toggle="modal" data-target="#modal{{$items->id_surat}}"><span>Hapus</span></a>
                         </td>
                     </tr>
@@ -65,7 +152,7 @@
             Launch demo modal
         </button> -->
         @foreach($surat as $data)
-        
+
         <!-- Modal -->
         <div class="modal fade" id="modal{{$data->id_surat}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">

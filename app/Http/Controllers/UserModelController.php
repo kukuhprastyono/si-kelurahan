@@ -9,7 +9,7 @@ class UserModelController extends Controller
 {
     public function __construct()
     {
-        $this->UserModel = new UserMOdel();
+        $this->UserModel = new UserModel();
     }
     // insert
     public function index()
@@ -48,6 +48,7 @@ class UserModelController extends Controller
         ]);
         $data = [
             'nik'       =>  request()->nik,
+            'status'       =>  'pending',
             'nomor_kk'  =>  request()->nomor_kk,
             'nama_lengkap'  =>  request()->nama_lengkap,
             'jenis_kelamin' =>  request()->jenis_kelamin,
