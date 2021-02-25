@@ -48,6 +48,7 @@
                         <td>{{$items->tanggal_lahir}}</td>
                         <td>{{$items->agama}}</td>
                         <td>
+                            <a href="/admin/print/{{$items->id_surat}}" class="badge badge-primary"><span>Print</span></a>
                             <a href="/admin/detail/{{$items->id_surat}}" class="badge badge-info"><span>Detail</span></a>
                             <a href="/admin/edit/{{$items->id_surat}}" class="badge badge-warning"><span>Edit</span></a>
                             <!-- <a href="/admin/delete/{{$items->id_surat}}" class="badge badge-danger"><span>Hapus</span></a> -->

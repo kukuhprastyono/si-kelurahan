@@ -10,7 +10,8 @@ class AdminModel extends Model
 {
     public function allData()
     {
-        return DB::table('tbl_surat')->get();
+        return DB::table('tbl_surat')
+            ->get();
     }
 
     public function detailData($id_surat)

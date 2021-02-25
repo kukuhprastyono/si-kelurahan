@@ -7,79 +7,60 @@ use Illuminate\Http\Request;
 
 class UserModelController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->UserModel = new UserMOdel();
+    }
+    // insert
     public function index()
     {
-        //
+        return view('user.v_dashboardUser');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function insertSurat()
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\UserModel  $userModel
-     * @return \Illuminate\Http\Response
-     */
-    public function show(UserModel $userModel)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\UserModel  $userModel
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(UserModel $userModel)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\UserModel  $userModel
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, UserModel $userModel)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\UserModel  $userModel
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(UserModel $userModel)
-    {
-        //
+        
+        Request()->validate([
+            'nik'               =>  'required',
+            'nomor_kk'          =>  'required',
+            'nama_lengkap'      =>  'required',
+            'jenis_kelamin'     =>  'required',
+            'tempat_lahir'      =>  'required',
+            'tanggal_lahir'     =>  'required',
+            'agama'             =>  'required',
+            'pekerjaan'         =>  'required',
+            'tempat_tinggal'    =>  'required',
+            'status_perkawinan' =>  'required',
+            'keperluan'         =>  'required',
+            'keterangan_lain'   =>  'required'
+        ], [
+            'nik.required'               =>  'NIK wajib diisi',
+            'nomor_kk.required'          =>  'Nomor kk wajib diisi',
+            'nama_lengkap.required'      =>  'Nama lengkap wajib diisi',
+            'jenis_kelamin.required'     =>  'Jenis kelamin wajib diisi',
+            'tempat_lahir.required'      =>  'Tempat lahir wajib diisi',
+            'tanggal_lahir.required'     =>  'Tanggal lahir wajib diisi',
+            'agama.required'             =>  'Agama wajib diisi',
+            'pekerjaan.required'         =>  'Pekerjaan wajib diisi',
+            'tempat_tinggal.required'    =>  'Tempat tinggal wajib diisi',
+            'status_perkawinan.required' =>  'Status perkawinan wajib diisi',
+            'keperluan.required'         =>  'Keperluan wajib diisi',
+            'keterangan_lain.required'   =>  'Keterangan wajib diisi'
+        ]);
+        $data = [
+            'nik'       =>  request()->nik,
+            'nomor_kk'  =>  request()->nomor_kk,
+            'nama_lengkap'  =>  request()->nama_lengkap,
+            'jenis_kelamin' =>  request()->jenis_kelamin,
+            'tempat_lahir'  =>  request()->tempat_lahir,
+            'tanggal_lahir' =>  request()->tanggal_lahir,
+            'agama'         =>  request()->agama,
+            'pekerjaan'     =>  request()->pekerjaan,
+            'tempat_tinggal'    =>  request()->tempat_tinggal,
+            'status_perkawinan' =>  request()->status_perkawinan,
+            'keperluan'         =>  request()->keperluan,
+            'keterangan_lain'   =>  request()->keterangan_lain
+        ];
+        $this->UserModel->addData($data);
+        return redirect()->route('user')->with('alert', 'Data berhasil ditambahkan');
     }
 }

@@ -11,6 +11,7 @@ class AdminModelController extends Controller
     public function __construct()
     {
         $this->AdminModel = new AdminModel();
+        $this->middleware('auth');
     }
 
     // show all data
@@ -143,9 +144,22 @@ class AdminModelController extends Controller
         return redirect()->route('admin')->with('alert','Data berhasil diubah');
     }
 
+    // delete data
     public function deleteSurat($id_surat)
     {
         $this->AdminModel->deleteData($id_surat);
         return redirect()->route('admin')->with('alert', 'Data berhasil dihapus');
+    }
+
+    // print data
+    public function printSurat($id_surat)
+    {
+        if (!$this->AdminModel->detailData($id_surat)) {
+            return abort(404);
+        }
+        $data = [
+            'surat' =>  $this->AdminModel->detailData($id_surat)
+        ];
+        return view('admin/v_printSurat', $data);
     }
 }
